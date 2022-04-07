@@ -400,9 +400,9 @@ ui <- fluidPage(
                                                          ),
                                                          fluidRow(sliderInput("rango_luc",
                                                                               label = "Seleccionar rango temporal",
-                                                                              min = min(total_uni$created_at),
-                                                                              max = max(total_uni$created_at),
-                                                                              value=c(min(total_uni$created_at),max(total_uni$created_at)),
+                                                                              min = min(total_luc$created_at),
+                                                                              max = max(total_luc$created_at),
+                                                                              value=c(min(total_luc$created_at),max(total_luc$created_at)),
                                                                               timeFormat="%d-%m-%Y",width = "95%")),
                                                          
                                                          br(),
@@ -440,9 +440,9 @@ ui <- fluidPage(
                                                          br(),
                                                          fluidRow(sliderInput("rango_luc_comunidades",
                                                                               label = "Seleccionar rango temporal",
-                                                                              min = min(total_uni$created_at),
-                                                                              max = max(total_uni$created_at),
-                                                                              value=c(min(total_uni$created_at),max(total_uni$created_at)),
+                                                                              min = min(total_luc$created_at),
+                                                                              max = max(total_luc$created_at),
+                                                                              value=c(min(total_luc$created_at),max(total_luc$created_at)),
                                                                               timeFormat="%d-%m-%Y",width = "95%")),
                                                          
                                                          br(),
@@ -463,9 +463,9 @@ ui <- fluidPage(
                                                          br(),
                                                          fluidRow(sliderInput("rango_luc_texto",
                                                                               label = "Seleccionar rango temporal",
-                                                                              min = min(total_uni$created_at),
-                                                                              max = max(total_uni$created_at),
-                                                                              value=c(min(total_uni$created_at),max(total_uni$created_at)),
+                                                                              min = min(total_luc$created_at),
+                                                                              max = max(total_luc$created_at),
+                                                                              value=c(min(total_luc$created_at),max(total_luc$created_at)),
                                                                               timeFormat="%d-%m-%Y",width = "95%")),
                                                          
                                                          br(),
@@ -834,8 +834,8 @@ server <- function(session, input, output) {
         dfm <- quanteda::dfm(quanteda::tokens(tweets_votosi_texto()$text),
                              tolower = TRUE,
                              verbose = FALSE)%>%
-            quanteda::dfm_remove(c(stopwords("spanish"),"#votosi","#votasi","#votosí"),min_nchar=3)%>%
-            quanteda::dfm_trim(min_docfreq = 3)
+            quanteda::dfm_remove(c(stopwords("spanish"),"#votosi","#votasi","#votosí"),min_nchar=4)%>%
+            quanteda::dfm_trim(min_docfreq = 4)
  
     })  
     
@@ -857,7 +857,7 @@ server <- function(session, input, output) {
         base_fcm= base_votosi_texto()%>%
             fcm(context = "document")
         
-        feat <- names(topfeatures(base_fcm, 70))
+        feat <- names(topfeatures(base_fcm, 120))
         
         base_fcm_select <- fcm_select(base_fcm, pattern = feat, selection = "keep")
         size <- log(colSums(dfm_select(base_fcm, feat, selection = "keep")))
@@ -877,6 +877,7 @@ server <- function(session, input, output) {
         req(input$rango_votosi_cuentas)
         
         total_uni %>%
+
             filter(created_at >= input$rango_votosi_cuentas[1] &
                        created_at <= input$rango_votosi_cuentas[2])
         
@@ -891,9 +892,9 @@ server <- function(session, input, output) {
         
         cuentas_votosi<- tweets_votosi_cuentas() %>%
             filter(is_retweet==TRUE)%>%
-            group_by(retweet_screen_name)%>%
+            group_by(retweet_name)%>%
             summarise(conteo=n())%>%
-            top_n(70)%>%
+            #top_n(70)%>%
             arrange(desc(conteo))
         
         
@@ -1115,8 +1116,8 @@ server <- function(session, input, output) {
         dfm <- quanteda::dfm(quanteda::tokens(tweets_votano_texto()$text),
                              tolower = TRUE,
                              verbose = FALSE)%>%
-            quanteda::dfm_remove(c(stopwords("spanish"),"#votalaceleste","#votaNOderogar","luc"),min_nchar=3)%>%
-            quanteda::dfm_trim(min_docfreq = 3)
+            quanteda::dfm_remove(c(stopwords("spanish"),"#votalaceleste","#votaNOderogar","luc"),min_nchar=4)%>%
+            quanteda::dfm_trim(min_docfreq = 4)
         
     })  
     
@@ -1138,7 +1139,7 @@ server <- function(session, input, output) {
         base_fcm= base_votano_texto()%>%
             fcm(context = "document")
         
-        feat <- names(topfeatures(base_fcm, 70))
+        feat <- names(topfeatures(base_fcm, 120))
         
         base_fcm_select <- fcm_select(base_fcm, pattern = feat, selection = "keep")
         size <- log(colSums(dfm_select(base_fcm, feat, selection = "keep")))
@@ -1173,9 +1174,9 @@ server <- function(session, input, output) {
         
         cuentas_votano<- tweets_votano_cuentas() %>%
             filter(is_retweet==TRUE)%>%
-            group_by(retweet_screen_name)%>%
+            group_by(retweet_name)%>%
             summarise(conteo=n())%>%
-            top_n(70)%>%
+            #top_n(70)%>%
             arrange(desc(conteo))
         
         
@@ -1395,8 +1396,8 @@ server <- function(session, input, output) {
         dfm <- quanteda::dfm(quanteda::tokens(tweets_votasi_texto()$text),
                              tolower = TRUE,
                              verbose = FALSE)%>%
-            quanteda::dfm_remove(c(stopwords("spanish"),"#votosi","#votási","#votasi","#votasí","#votásí","#votosí","#votasi","luc"),min_nchar=3)%>%
-            quanteda::dfm_trim(min_docfreq = 3)
+            quanteda::dfm_remove(c(stopwords("spanish"),"#votosi","#votási","#votasi","#votasí","#votásí","#votosí","#votasi","luc"),min_nchar=4)%>%
+            quanteda::dfm_trim(min_docfreq = 4)
         
     })  
     
@@ -1418,7 +1419,7 @@ server <- function(session, input, output) {
         base_fcm= base_votasi_texto()%>%
             fcm(context = "document")
         
-        feat <- names(topfeatures(base_fcm, 70))
+        feat <- names(topfeatures(base_fcm, 120))
         
         base_fcm_select <- fcm_select(base_fcm, pattern = feat, selection = "keep")
         size <- log(colSums(dfm_select(base_fcm, feat, selection = "keep")))
@@ -1436,7 +1437,7 @@ server <- function(session, input, output) {
         
         req(input$rango_votasi_cuentas)
         
-        total_uni %>%
+        total_votasi %>%
             filter(created_at >= input$rango_votasi_cuentas[1] &
                        created_at <= input$rango_votasi_cuentas[2])
         
@@ -1451,9 +1452,9 @@ server <- function(session, input, output) {
         
         cuentas_votasi<- tweets_votasi_cuentas() %>%
             filter(is_retweet==TRUE)%>%
-            group_by(retweet_screen_name)%>%
+            group_by(retweet_name)%>%
             summarise(conteo=n())%>%
-            top_n(70)%>%
+            #top_n(70)%>%
             arrange(desc(conteo))
         
         
@@ -1681,8 +1682,8 @@ server <- function(session, input, output) {
         dfm <- quanteda::dfm(quanteda::tokens(tweets_luc_texto()$text),
                              tolower = TRUE,
                              verbose = FALSE)%>%
-            quanteda::dfm_remove(c(stopwords("spanish"),"luc","#luc","#votasi","#votosí"),min_nchar=3)%>%
-            quanteda::dfm_trim(min_docfreq = 3)
+            quanteda::dfm_remove(c(stopwords("spanish"),"luc","#luc","#votasi","#votosí"),min_nchar=4)%>%
+            quanteda::dfm_trim(min_docfreq = 4)
         
     })  
     
@@ -1704,7 +1705,7 @@ server <- function(session, input, output) {
         base_fcm= base_luc_texto()%>%
             fcm(context = "document")
         
-        feat <- names(topfeatures(base_fcm, 70))
+        feat <- names(topfeatures(base_fcm, 120))
         
         base_fcm_select <- fcm_select(base_fcm, pattern = feat, selection = "keep")
         size <- log(colSums(dfm_select(base_fcm, feat, selection = "keep")))
@@ -1723,7 +1724,7 @@ server <- function(session, input, output) {
         
         req(input$rango_luc_cuentas)
         
-        total_uni %>%
+        total_luc %>%
             filter(created_at >= input$rango_luc_cuentas[1] &
                        created_at <= input$rango_luc_cuentas[2])
         
@@ -1738,9 +1739,9 @@ server <- function(session, input, output) {
         
         cuentas_luc<- tweets_luc_cuentas() %>%
             filter(is_retweet==TRUE)%>%
-            group_by(retweet_screen_name)%>%
+            group_by(retweet_name)%>%
             summarise(conteo=n())%>%
-            top_n(70)%>%
+            #top_n(70)%>%
             arrange(desc(conteo))
         
         

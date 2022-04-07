@@ -32,7 +32,7 @@ library(beepr)
 # url_path = 'mongodb+srv://elinagomez:i25SJBackC3pKXV@cluster0.vl4me.mongodb.net/test'
 # descargamos los datasets necesarios -------------------------------------
 
-options(scipen = 9999)
+#options(scipen = 9999)
 
 #Cargamos los datasets necesarios -----------------------------------------
 ### name_columns ------
@@ -82,9 +82,9 @@ votosi_diaria = votosi_diaria %>%
 
 ##CAMBIAR CADA DÍA
 
-votosi_diaria302022=votosi_diaria
+votosi_diaria28032022=votosi_diaria
 
-save(votosi_diaria302022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/votosi/base", 
+save(votosi_diaria28032022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/votosi/base", 
                               Sys.Date(),".RData")) 
 
 
@@ -101,9 +101,9 @@ votasi_diaria = votasi_diaria %>%
 
 ##CAMBIAR CADA DÍA
 
-votasi_diaria302022=votasi_diaria
+votasi_diaria28032022=votasi_diaria
 
-save(votasi_diaria302022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/votasi/base_votasi", 
+save(votasi_diaria28032022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/votasi/base_votasi", 
                                     Sys.Date(),".RData")) 
 
 
@@ -145,9 +145,9 @@ dplyr::filter(grepl('Uruguay|Montevideo', location))
 
 ##ponerle nombre diferente al objeto!!!!!!!!!!!
 
-luc_diaria_uru302022 = luc_diaria_uru
+luc_diaria_uru28032022 = luc_diaria_uru
 
-save(luc_diaria_uru302022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/luc/base_luc", 
+save(luc_diaria_uru28032022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/luc/base_luc", 
                                   Sys.Date(),".RData")) 
 
 
@@ -167,10 +167,10 @@ noderogar_diaria = noderogar_diaria %>%
 
 ##CAMBIAR CADA DÍA
 
-noderogar_diaria302022=noderogar_diaria
+noderogar_diaria28032022=noderogar_diaria
 
 
-save(noderogar_diaria302022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/votanoderogar/base_votanoderogar", 
+save(noderogar_diaria28032022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/votanoderogar/base_votanoderogar", 
                                    Sys.Date(),".RData")) 
 
 
@@ -189,7 +189,7 @@ prensa_luc  = gdeltr2::ft_v2_api(
 
 prensa_luc = subset(prensa_luc,duplicated(prensa_luc$titleArticle)==FALSE)
 
-prensa_luc302022 = prensa_luc
+prensa_luc28032022 = prensa_luc
 
-save(prensa_luc302022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/prensa/prensa_luc", Sys.Date(),".RData")) 
+save(prensa_luc28032022, file = paste0("C:/Users/Usuario/Documents/LUC/Bases_diarias/prensa/prensa_luc", Sys.Date(),".RData")) 
 

@@ -1,5 +1,4 @@
 
-
 ##VOTOSI
 
 my_list <- list.files("Bases_diarias/votosi", full.names=TRUE)
